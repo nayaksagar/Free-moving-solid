@@ -1,0 +1,5 @@
+WARNING: convergence for pf not reached after 100 iterations
+  res: 14502.1 sum: -901120 nrelax: 100
+WARNING: convergence for pf not reached after 100 iterations
+  res: 116.391 sum: -238316 nrelax: 100
+/home/sagar/basilisk/basilisk/src/timestep.h:10: Assertion `fm.x[]' failed.
