@@ -1,5 +1,6 @@
 #include "navier-stokes/centered.h"
 #include "fractions.h"
+#include "embed.h"
 
 int main(){
   L0 = 8.;
@@ -45,7 +46,13 @@ event images (t += 0.1; t <= 10.0) {
 	      min=-10, max=10, linear=true);
 }
 
-
 event adapt (i++) {
   adapt_wavelet ((scalar *){u}, (double[]){3e-2,3e-2}, 9, 4);
+}
+
+event logfile(i+=10){
+  coord Fp, Fmu;
+  embed_force (p, u, mu, &Fp, &Fmu);
+  fprintf (stderr, "%d %g %g %.6f %.6f %.6f %.6f\n",
+	   i, t, dt, Fp.x, Fp.y, Fmu.x, Fmu.y);
 }
