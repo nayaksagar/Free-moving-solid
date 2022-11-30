@@ -1,6 +1,7 @@
 #include "navier-stokes/centered.h"
 #include "fractions.h"
-#include "embed.h"
+//#include "embed.h"
+// face vector muc[];
 
 int main(){
   L0 = 8.;
@@ -11,6 +12,11 @@ int main(){
   run();
 }
 
+// event properties(i++){
+//   foreach_face()
+//     muv.x[]=fm.x[]*0.125/Re;
+// }
+
 event init (t = 0) {
   mask(y > 0.5 ? top: y < -0.5 ? bottom : none);
 }
@@ -18,7 +24,7 @@ event init (t = 0) {
 scalar cylinder[];
 
 event moving_cylinder (i++) {
-  coord vc = {1.,0.}; // the velocity of the cylinder
+  coord vc = {1.*t,0.}; // the velocity of the cylinder
   fraction (cylinder, - (sq(x - vc.x*t) + sq(y - vc.y*t) - sq(0.0625)));
 
 
@@ -48,11 +54,16 @@ event images (t += 0.1; t <= 10.0) {
 
 event adapt (i++) {
   adapt_wavelet ((scalar *){u}, (double[]){3e-2,3e-2}, 9, 4);
-}
+}// event logfile(i+=10){
+//   coord Fp, Fmu;
+//   embed_force (p, u, mu, &Fp, &Fmu);
+//   fprintf (stderr, "%d %g %g %.6f %.6f %.6f %.6f\n",
+// 	   i, t, dt, Fp.x, Fp.y, Fmu.x, Fmu.y);
+// }
 
-event logfile(i+=10){
-  coord Fp, Fmu;
-  embed_force (p, u, mu, &Fp, &Fmu);
-  fprintf (stderr, "%d %g %g %.6f %.6f %.6f %.6f\n",
-	   i, t, dt, Fp.x, Fp.y, Fmu.x, Fmu.y);
-}
+// event logfile(i+=10){
+//   coord Fp, Fmu;
+//   embed_force (p, u, mu, &Fp, &Fmu);
+//   fprintf (stderr, "%d %g %g %.6f %.6f %.6f %.6f\n",
+// 	   i, t, dt, Fp.x, Fp.y, Fmu.x, Fmu.y);
+// }
